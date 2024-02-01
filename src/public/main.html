@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Enter city and country for get weather info : <br /><br />
+    <form action="" method="" onsubmit="weatherInfoByNames(); return false">
+      City :
+      <input type="text" id="city" name="city" placeholder="City" required />
+      Country:
+      <input type="text" id="country" name="country" placeholder="Country" />
+      <button type="submit">SUBMIT</button>
+    </form>
+
+    <form action="" onsubmit="foreCastData(); return false">
+      <input type="date" id="date" name="date" />
+      <button type="submit"></button>
+    </form>
+
+    <ul id="citylist">
+      <li>1</li>
+      <li>2</li>
+    </ul>
+
+    <div id="data-container"></div>
+  </body>
+
+  <script>
+    async function foreCastData() {
+      console.log('urva');
+      const date = document.getElementById('date').value;
+      console.log('i', date);
+
+      const url = `http://localhost:3001/weather/date?date=${date}`;
+
+      const data = await fetch(url);
+      const result = await data.json();
+
+      console.log(result);
+    }
+    const cityList = document.getElementById('citylist');
+    async function weatherInfoByNames(e) {
+      const city = document.getElementById('city').value;
+      const country = document.getElementById('country').value;
+
+      const locationData = {
+        city: city,
+        country: country,
+      };
+      const url = `http://localhost:3001/weather/search?city=${city}`;
+
+      const data = await fetch(url);
+      const result = await data.json();
+
+      console.log(result);
+
+      cityList.innerHTML = '';
+      result.data.map((city) => {
+        console.log('z , ', city.lon);
+        const { name, country, lat, lon, id, region } = city;
+        console.log('lon', lon);
+        console.log(city);
+        const li = document.createElement('li');
+        li.innerHTML = `${name}, ${country}`;
+        cityList.appendChild(li);
+        const u = city.name;
+        console.log(u);
+        li.addEventListener('click', () => {
+          getData(lat, lon);
+        });
+        // l1.setAttribute('id', 'list');
+      });
+
+      async function getData(lat, lon) {
+        console.log(lat, lon);
+        console.log('urva');
+        const url = `http://localhost:3001/weather?lat=${lat}&lon=${lon}`;
+
+        const data = await fetch(url);
+        const result = await data.json();
+
+        setData(result);
+        console.log(result);
+      }
+
+      const dataContainer = document.getElementById('data-container');
+      function setData(result) {
+        dataContainer.innerHTML = `
+              <h2>Weather Details Of ${result.data.location.name}</h2>
+              <p>Name: ${result.data.location.name}</p>
+              <p>Country: ${result.data.location.country}</p>
+              <p>Region: ${result.data.location.region}</p>
+              <p>Time: ${result.data.location.localtime}</p>
+              <p>Temprature in C: ${result.data.current.temp_c}</p>
+              <p>Temprature in F: ${result.data.current.temp_F}</p>
+              <p>Condition: ${result.data.current.condition.text}</p>
+              <image src='${result.data.current.condition.icon}'></image>
+              <p>WindSpeed ${result.data.current.wind_kph}KPH</p>
+              <p>Humidity: ${result.data.current.humidity}%</p>
+              <p>Visibility: ${result.data.current.vis_km}%Km</p>
+              <p>Last updated: ${result.data.current.last_updated}</p>
+              <p>Latitude: ${result.data.location.lat}</p>
+              <p>Longitude: ${result.data.location.long} kph</p>
+              `;
+      }
+
+      //   console.log(li);
+      //   if (result.isError) {
+      //     return (weatherInfo.innerHTML = `<h1 style="color:red";>${result.message}</h1>`);
+      //   }
+      //   weatherInfo.innerHTML = '';
+      //   setWeatherData(result.data.list);
+    }
+  </script>
+</html>

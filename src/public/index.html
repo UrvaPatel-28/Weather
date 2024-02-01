@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Get your current details :
+    <button onclick="givePermission()">Click</button> <br /><br />
+
+    Enter city and country for get weather info : <br /><br />
+    <form action="" method="" onsubmit="weatherInfoByNames(); return false">
+      City :
+      <input type="text" id="city" name="city" placeholder="City" required />
+      Country:
+      <input type="text" id="country" name="country" placeholder="Country" />
+
+      <button type="submit">SUBMIT</button>
+    </form>
+    <br />
+    <h3>Forecast :</h3>
+    <br />
+    <form onsubmit="forecast(); return false">
+      Latitude :
+      <input
+        type="text"
+        id="latitude"
+        name="lat"
+        placeholder="Latitud"
+        required
+      />
+      Longitude:
+      <input type="text" id="longitude" name="long" placeholder="Longitud" />
+      <input type="date" id="date" name="date" />
+      <button type="submit">SUBMIT</button>
+    </form>
+
+    <div id="address-container"></div>
+    <div id="weatherinfo-codes"></div>
+    <div id="weatherinfo">
+      <div id="city-div"></div>
+    </div>
+
+    <div id="data-container"></div>
+    <script></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
+
+<!-- 
+
+  //aithi baki  data form ma  moklvano
+  //   async function getData(lat, long) {
+  //     const url = `https://api.radar.io/v1/geocode/reverse?coordinates=${lat},${long}`;
+  //     const data = await fetch(url, {
+  //       method: 'GET',
+  //       headers: {
+  //         Authorization:
+  //           'prj_live_sk_9d3e012357087cece4b2884af3e48633e257f148',
+  //       },
+  //     });
+  //     const result = await data.json();
+  //     console.log(`data`, result);
+  //   }
+
+  
+  // window.addEventListener('load', () => {
+  //   console.log('Page load');
+
+  // }); -->
